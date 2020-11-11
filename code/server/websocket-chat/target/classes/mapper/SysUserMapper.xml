@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pactera.tf.chat.mapper.SysUserMapper">
+  <resultMap id="BaseResultMap" type="pactera.tf.chat.entity.SysUserDo">
+    <id column="usercode" jdbcType="VARCHAR" property="usercode" />
+    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="nick" jdbcType="VARCHAR" property="nick" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="lastlogintime" jdbcType="TIMESTAMP" property="lastlogintime" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="pactera.tf.chat.entity.SysUserDo">
+    <result column="photo" jdbcType="LONGVARBINARY" property="photo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    usercode, passwd, username, nick, createtime, lastlogintime, email
+  </sql>
+  <sql id="Blob_Column_List">
+    photo
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_user
+    where usercode = #{usercode,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_user
+    where email = #{email,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByUsername" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllCodes" parameterType="java.lang.String" resultType="java.lang.String">
+    select
+    	usercode
+    from sys_user
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_user
+    where usercode = #{usercode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pactera.tf.chat.entity.SysUserDo">
+    insert into sys_user (usercode, passwd, username, 
+      nick, createtime, lastlogintime, 
+      email, photo)
+    values (#{usercode,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{nick,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{lastlogintime,jdbcType=TIMESTAMP}, 
+      #{email,jdbcType=VARCHAR}, #{photo,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="pactera.tf.chat.entity.SysUserDo">
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="usercode != null">
+        usercode,
+      </if>
+      <if test="passwd != null">
+        passwd,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="nick != null">
+        nick,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="lastlogintime != null">
+        lastlogintime,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="usercode != null">
+        #{usercode,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null">
+        #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastlogintime != null">
+        #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="pactera.tf.chat.entity.SysUserDo">
+    update sys_user
+    <set>
+      <if test="passwd != null">
+        passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null">
+        nick = #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastlogintime != null">
+        lastlogintime = #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where usercode = #{usercode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="pactera.tf.chat.entity.SysUserDo">
+    update sys_user
+    set passwd = #{passwd,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      nick = #{nick,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      lastlogintime = #{lastlogintime,jdbcType=TIMESTAMP},
+      email = #{email,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=LONGVARBINARY}
+    where usercode = #{usercode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pactera.tf.chat.entity.SysUserDo">
+    update sys_user
+    set passwd = #{passwd,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      nick = #{nick,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      lastlogintime = #{lastlogintime,jdbcType=TIMESTAMP},
+      email = #{email,jdbcType=VARCHAR}
+    where usercode = #{usercode,jdbcType=VARCHAR}
+  </update>
+</mapper>

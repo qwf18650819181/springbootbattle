@@ -1,0 +1,17 @@
+redis:
+47.100.231.190:666
+密码 ：PAUL1999
+
+kafka:
+47.100.231.190:999
+
+mysql
+URL :  rm-uf67l69q8z1vz9rjuuo.mysql.rds.aliyuncs.com:3306
+数据库：chat
+用户名：chat
+密码：chat123
+
+
+
+服务端地址:
+http://47.100.231.190/webchat/

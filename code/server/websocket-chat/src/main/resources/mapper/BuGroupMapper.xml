@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pactera.tf.chat.mapper.BuGroupMapper">
+  <resultMap id="BaseResultMap" type="pactera.tf.chat.entity.BuGroupDo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="cnt" jdbcType="INTEGER" property="cnt" />
+    <result column="mastercode" jdbcType="VARCHAR" property="mastercode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, nickname, cnt, mastercode
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bu_group
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bu_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="pactera.tf.chat.entity.BuGroupDo">
+    insert into bu_group (id, nickname, cnt, 
+      mastercode)
+    values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{cnt,jdbcType=INTEGER}, 
+      #{mastercode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pactera.tf.chat.entity.BuGroupDo">
+    insert into bu_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="cnt != null">
+        cnt,
+      </if>
+      <if test="mastercode != null">
+        mastercode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="cnt != null">
+        #{cnt,jdbcType=INTEGER},
+      </if>
+      <if test="mastercode != null">
+        #{mastercode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="pactera.tf.chat.entity.BuGroupDo">
+    update bu_group
+    <set>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="cnt != null">
+        cnt = #{cnt,jdbcType=INTEGER},
+      </if>
+      <if test="mastercode != null">
+        mastercode = #{mastercode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pactera.tf.chat.entity.BuGroupDo">
+    update bu_group
+    set nickname = #{nickname,jdbcType=VARCHAR},
+      cnt = #{cnt,jdbcType=INTEGER},
+      mastercode = #{mastercode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="groupChatList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+     from bu_group g,BU_GROUP_USER u where g.id = u.groupid and u.usercode =#{usercode}
+
+  </select>
+  
+  <select id="selectAllGroup" parameterType="java.lang.String" resultType="java.lang.String">
+    select
+     id
+     from bu_group g
+
+  </select>
+
+
+</mapper>

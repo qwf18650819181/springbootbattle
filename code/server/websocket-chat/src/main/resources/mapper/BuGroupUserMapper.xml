@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pactera.tf.chat.mapper.BuGroupUserMapper">
+  <resultMap id="BaseResultMap" type="pactera.tf.chat.entity.BuGroupUserKeyDo">
+    <id column="groupid" jdbcType="INTEGER" property="groupid" />
+    <id column="usercode" jdbcType="VARCHAR" property="usercode" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="pactera.tf.chat.entity.BuGroupUserKeyDo">
+    delete from bu_group_user
+    where groupid = #{groupid,jdbcType=INTEGER}
+      and usercode = #{usercode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pactera.tf.chat.entity.BuGroupUserKeyDo">
+    insert into bu_group_user (groupid, usercode)
+    values (#{groupid,jdbcType=INTEGER}, #{usercode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pactera.tf.chat.entity.BuGroupUserKeyDo">
+    insert into bu_group_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupid != null">
+        groupid,
+      </if>
+      <if test="usercode != null">
+        usercode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupid != null">
+        #{groupid,jdbcType=INTEGER},
+      </if>
+      <if test="usercode != null">
+        #{usercode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+  <insert id="insertList" parameterType="java.util.List" >
+      insert into bu_group_user (groupid, usercode)
+      values
+      <foreach collection="list" item="item" separator="," index="index">
+        (
+          #{item.groupid},
+          #{item.usercode}
+        )
+      </foreach>
+  </insert>
+
+  <select id="selectAllGroupByUsercode" resultType="list" resultMap="BaseResultMap">
+    SELECT
+      groupid,usercode
+    FROM
+      bu_group_user
+    WHERE
+      usercode = #{usercode,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectGroupByGroupId"  resultMap="BaseResultMap">
+    SELECT
+      groupid,usercode
+    FROM
+      bu_group_user
+    WHERE
+      groupid = #{groupId,jdbcType=INTEGER}
+  </select>
+
+</mapper>

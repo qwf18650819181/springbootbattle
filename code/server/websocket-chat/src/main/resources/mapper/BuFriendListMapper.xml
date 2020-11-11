@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pactera.tf.chat.mapper.BuFriendListMapper">
+  <resultMap id="BaseResultMap" type="pactera.tf.chat.entity.BuFriendListDo">
+    <id column="usercode" jdbcType="VARCHAR" property="usercode" />
+    <id column="friendcode" jdbcType="VARCHAR" property="friendcode" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    usercode, friendcode, createtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="pactera.tf.chat.entity.BuFriendListKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bu_friend_list
+    where usercode = #{usercode,jdbcType=VARCHAR}
+      and friendcode = #{friendcode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pactera.tf.chat.entity.BuFriendListKey">
+    delete from bu_friend_list
+    where usercode = #{usercode,jdbcType=VARCHAR}
+      and friendcode = #{friendcode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="pactera.tf.chat.entity.BuFriendListDo">
+    insert into bu_friend_list (usercode, friendcode, createtime
+      )
+    values (#{usercode,jdbcType=VARCHAR}, #{friendcode,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pactera.tf.chat.entity.BuFriendListDo">
+    insert into bu_friend_list
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="usercode != null">
+        usercode,
+      </if>
+      <if test="friendcode != null">
+        friendcode,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="usercode != null">
+        #{usercode,jdbcType=VARCHAR},
+      </if>
+      <if test="friendcode != null">
+        #{friendcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="pactera.tf.chat.entity.BuFriendListDo">
+    update bu_friend_list
+    <set>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where usercode = #{usercode,jdbcType=VARCHAR}
+      and friendcode = #{friendcode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pactera.tf.chat.entity.BuFriendListDo">
+    update bu_friend_list
+    set createtime = #{createtime,jdbcType=TIMESTAMP}
+    where usercode = #{usercode,jdbcType=VARCHAR}
+      and friendcode = #{friendcode,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectAllFriendsByUsercode" resultType="list" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM
+      bu_friend_list
+    WHERE
+      usercode = #{usercode,jdbcType=VARCHAR}
+  </select>
+</mapper>

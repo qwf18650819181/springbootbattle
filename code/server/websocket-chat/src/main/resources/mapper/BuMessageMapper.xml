@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pactera.tf.chat.mapper.BuMessageMapper">
+  <resultMap id="BaseResultMap" type="pactera.tf.chat.entity.BuMessageDo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="receivecode" jdbcType="VARCHAR" property="receivecode" />
+    <result column="realsendcode" jdbcType="VARCHAR" property="realsendcode" />
+    <result column="sendcode" jdbcType="VARCHAR" property="sendcode" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+    <result column="msgtype" jdbcType="VARCHAR" property="msgtype" />
+    <result column="isreceive" jdbcType="VARCHAR" property="isreceive" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, receivecode, realsendcode, sendcode, message, msgtype, isreceive
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bu_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bu_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="pactera.tf.chat.entity.BuMessageDo"  useGeneratedKeys="true" keyProperty="id">
+    insert into bu_message (receivecode, realsendcode, 
+      sendcode, message, msgtype, 
+      isreceive)
+    values (#{receivecode,jdbcType=VARCHAR}, #{realsendcode,jdbcType=VARCHAR}, 
+      #{sendcode,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, #{msgtype,jdbcType=VARCHAR}, 
+      #{isreceive,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pactera.tf.chat.entity.BuMessageDo">
+    insert into bu_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="receivecode != null">
+        receivecode,
+      </if>
+      <if test="realsendcode != null">
+        realsendcode,
+      </if>
+      <if test="sendcode != null">
+        sendcode,
+      </if>
+      <if test="message != null">
+        message,
+      </if>
+      <if test="msgtype != null">
+        msgtype,
+      </if>
+      <if test="isreceive != null">
+        isreceive,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="receivecode != null">
+        #{receivecode,jdbcType=VARCHAR},
+      </if>
+      <if test="realsendcode != null">
+        #{realsendcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendcode != null">
+        #{sendcode,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="msgtype != null">
+        #{msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="isreceive != null">
+        #{isreceive,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="pactera.tf.chat.entity.BuMessageDo">
+    update bu_message
+    <set>
+      <if test="receivecode != null">
+        receivecode = #{receivecode,jdbcType=VARCHAR},
+      </if>
+      <if test="realsendcode != null">
+        realsendcode = #{realsendcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendcode != null">
+        sendcode = #{sendcode,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null">
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="msgtype != null">
+        msgtype = #{msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="isreceive != null">
+        isreceive = #{isreceive,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pactera.tf.chat.entity.BuMessageDo">
+    update bu_message
+    set receivecode = #{receivecode,jdbcType=VARCHAR},
+      realsendcode = #{realsendcode,jdbcType=VARCHAR},
+      sendcode = #{sendcode,jdbcType=VARCHAR},
+      message = #{message,jdbcType=VARCHAR},
+      msgtype = #{msgtype,jdbcType=VARCHAR},
+      isreceive = #{isreceive,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+  <insert id="insertMessage" >
+      insert into bu_message  ( receivecode, realsendcode,
+    sendcode, message, msgtype,
+    isreceive)
+      values
+      <foreach collection="list" item="item" separator="," index="index">
+        (
+        #{item.receivecode,jdbcType=VARCHAR},
+        #{item.realsendcode,jdbcType=VARCHAR},
+        #{item.sendcode,jdbcType=VARCHAR},
+        #{item.message,jdbcType=VARCHAR},
+        #{item.msgtype,jdbcType=VARCHAR},
+        #{item.isreceive,jdbcType=VARCHAR}
+        )
+      </foreach>
+
+  </insert>
+
+  <select id="getGroupMessage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from bu_message where receivecode = #{receivecode,jdbcType=VARCHAR} and isreceive='N'
+  </select>
+
+  <update id="updateMessageByUserCode" parameterType="java.lang.String">
+    update bu_message set isreceive = 'Y' where receivecode = #{receivecode,jdbcType=VARCHAR}
+  </update>
+
+
+
+</mapper>

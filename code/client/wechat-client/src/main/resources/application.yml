@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    #配置MySQL的驱动程序类
+    driver-class-name: org.gjt.mm.mysql.Driver
+    #数据库连接
+    url: jdbc:mysql://rm-uf67l69q8z1vz9rjuuo.mysql.rds.aliyuncs.com:3306/chat?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: chat
+    password: chat123
+server:
+  tomcat:
+    uri-encoding: UTF-8
+
+
+       
